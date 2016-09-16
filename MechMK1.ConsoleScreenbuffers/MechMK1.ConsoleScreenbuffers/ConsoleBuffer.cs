@@ -18,13 +18,13 @@ namespace MechMK1.ConsoleScreenbuffers
 		internal ConsoleBuffer(IntPtr bufferHandle)
 		{
 			//If a handle is either -1 or 0, it's invalid and will throw.
-			if (bufferHandle.ToInt32() != Externals.InvalidHanldeValue && bufferHandle.ToInt32() != Externals.NullHandleValue)
+			if (bufferHandle.ToInt32() != NativeMethods.InvalidHanldeValue && bufferHandle.ToInt32() != NativeMethods.NullHandleValue)
 			{
 				this.BufferHandle = bufferHandle;
 			}
 			else
 			{
-				throw new Exception("Invalid handle");
+				throw new ArgumentException("Invalid handle", "bufferHandle");
 			}
 			
 		}
@@ -35,7 +35,7 @@ namespace MechMK1.ConsoleScreenbuffers
 		/// <returns>Returns true on success, false on error.</returns>
 		public bool SetAsActiveBuffer()
 		{
-			return Externals.SetConsoleActiveScreenBuffer(this.BufferHandle);
+			return NativeMethods.SetConsoleActiveScreenBuffer(this.BufferHandle);
 		}
 
 		/// <summary>
@@ -44,22 +44,39 @@ namespace MechMK1.ConsoleScreenbuffers
 		/// <returns>Returns a new ConsoleBuffer on success, throws on error.</returns>
 		public static ConsoleBuffer Create()
 		{
-			IntPtr buffer = Externals.CreateConsoleScreenBuffer(AccessRights.Read | AccessRights.Write, ShareMode.Read | ShareMode.Write, IntPtr.Zero, 1, 0);
-			return new ConsoleBuffer(buffer);
+			IntPtr buffer;
+			try
+			{
+				buffer = NativeMethods.CreateConsoleScreenBuffer(AccessRights.Read | AccessRights.Write, ShareModes.Read | ShareModes.Write, IntPtr.Zero, 1, 0);
+				return new ConsoleBuffer(buffer);
+			}
+			catch (ArgumentException ex)
+			{
+				throw new InvalidOperationException("Creation of the Console Buffer was unsuccessful.", ex);
+			}
 		}
 
 		/// <summary>
 		/// Gets the current console buffer.
 		/// </summary>
 		/// <returns>Returns a new ConsoleBuffer on success, throws on error.</returns>
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")] //Is not a property, so this message is suppressed
 		public static ConsoleBuffer GetCurrentConsoleScreenBuffer()
 		{
-			IntPtr buffer = Externals.GetStdHandle(StandardDevices.StandardOutput);
-			return new ConsoleBuffer(buffer);
+			IntPtr buffer;
+			try
+			{
+				buffer = NativeMethods.GetStdHandle(StandardDevice.StandardOutput);
+				return new ConsoleBuffer(buffer);
+			}
+			catch (ArgumentException ex)
+			{
+				throw new InvalidOperationException("Getting the current buffer was unsuccessful", ex);
+			}
 		}
 
 		/// <summary>
-		/// Write data to the console buffer.
+		/// Draw data to the console buffer.
 		/// </summary>
 		/// <param name="data">A ConsoleCharacter array containing the data. Should be as big as the data to be written.</param>
 		/// <param name="x">X coordinate on the output buffer</param>
@@ -67,10 +84,10 @@ namespace MechMK1.ConsoleScreenbuffers
 		/// <param name="width">Width of the data</param>
 		/// <param name="height">Height of the data</param>
 		/// <returns>Returns true on success, false on error.</returns>
-		public bool Write(ConsoleCharacter[] data, short x, short y, short width, short height)
+		public bool Draw(ConsoleCharacter[] data, short x, short y, short width, short height)
 		{
 			SmallRect rect = new SmallRect() { Left = x, Top = y, Right = (short)(x+width), Bottom = (short)(y+height) };
-			return Externals.WriteConsoleOutput(this.BufferHandle, data, new Coord() { X = width, Y = height }, new Coord() { X = 0, Y = 0 }, ref rect);
+			return NativeMethods.WriteConsoleOutput(this.BufferHandle, data, new Coord() { X = width, Y = height }, new Coord() { X = 0, Y = 0 }, ref rect);
 		}
 	}
 }

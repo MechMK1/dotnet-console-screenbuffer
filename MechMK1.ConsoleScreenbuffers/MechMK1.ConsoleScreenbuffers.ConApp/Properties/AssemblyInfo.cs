@@ -1,17 +1,16 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MechMK1.ConsoleScreenbuffers")]
+[assembly: AssemblyTitle("MechMK1.ConsoleScreenbuffers.ConApp")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("MechMK1")]
-[assembly: AssemblyProduct("MechMK1.ConsoleScreenbuffers")]
-[assembly: AssemblyCopyright("Copyright © MechMK1 2016")]
+[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyProduct("MechMK1.ConsoleScreenbuffers.ConApp")]
+[assembly: AssemblyCopyright("Copyright © Microsoft 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -21,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("777e1b28-5405-4c0e-bf67-7ca41c545def")]
+[assembly: Guid("f84adc6b-ee51-4fb7-8a95-5dcadbc75633")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -35,4 +34,3 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-[assembly: CLSCompliant(false)]

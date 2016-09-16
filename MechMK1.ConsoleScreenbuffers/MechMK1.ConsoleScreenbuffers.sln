@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MechMK1.ConsoleScreenbuffers", "MechMK1.ConsoleScreenbuffers\MechMK1.ConsoleScreenbuffers.csproj", "{8F61836F-D5CF-4754-84A3-96E91118D377}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MechMK1.ConsoleScreenbuffers.ConApp", "MechMK1.ConsoleScreenbuffers.ConApp\MechMK1.ConsoleScreenbuffers.ConApp.csproj", "{DC103E00-CF02-48C4-8B2B-012A06E806AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{8F61836F-D5CF-4754-84A3-96E91118D377}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F61836F-D5CF-4754-84A3-96E91118D377}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F61836F-D5CF-4754-84A3-96E91118D377}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC103E00-CF02-48C4-8B2B-012A06E806AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC103E00-CF02-48C4-8B2B-012A06E806AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC103E00-CF02-48C4-8B2B-012A06E806AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC103E00-CF02-48C4-8B2B-012A06E806AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
