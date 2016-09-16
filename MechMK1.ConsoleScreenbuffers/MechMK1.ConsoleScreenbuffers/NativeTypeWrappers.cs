@@ -3,6 +3,12 @@ using System.Runtime.InteropServices;
 
 namespace MechMK1.ConsoleScreenbuffers
 {
+	/*
+	 * This file contains wrappers for native types as required by the WinAPI
+	 * I assumed it would be "cleaner" to have them in one file than to attach them to NativeMethods.cs
+	 */
+
+	#region Public
 	/// <summary>
 	/// Represents a single character in an output buffer
 	/// </summary>
@@ -20,6 +26,7 @@ namespace MechMK1.ConsoleScreenbuffers
 		[FieldOffset(2)]
 		public CharacterAttributes Attributes;
 
+		#region Overrides
 		public override int GetHashCode()
 		{
 			return this.Char.AsciiChar ^ (int)this.Attributes;
@@ -49,7 +56,8 @@ namespace MechMK1.ConsoleScreenbuffers
 		public static bool operator !=(ConsoleCharacter c1, ConsoleCharacter c2)
 		{
 			return !c1.Equals(c2);
-		}  
+		}
+		#endregion Overrides
 	}
 
 	/// <summary>
@@ -69,6 +77,7 @@ namespace MechMK1.ConsoleScreenbuffers
 		[FieldOffset(0)]
 		public byte AsciiChar;
 
+		#region Overrides
 		public override int GetHashCode()
 		{
 			return this.AsciiChar.GetHashCode();
@@ -95,7 +104,8 @@ namespace MechMK1.ConsoleScreenbuffers
 		public static bool operator !=(CharacterUnion c1, CharacterUnion c2)
 		{
 			return !c1.Equals(c2);
-		} 
+		}
+		#endregion Overrides
 	}
 
 	/// <summary>
@@ -106,21 +116,23 @@ namespace MechMK1.ConsoleScreenbuffers
 	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1028:EnumStorageShouldBeInt32"), Flags] //Has to be short for the native method
 	public enum CharacterAttributes : short
 	{
-		ForegroundBlue =		0x01,
-		ForegroundGreen =		0x02,
-		ForegroundRed =			0x04,
-		ForegroundIntensity =	0x08,
-		BackgroundBlue =		0x10,
-		BackgroundGreen =		0x20,
-		BackgroundRed =			0x40,
-		BackgroundIntensity =	0x80,
+		ForegroundBlue = 0x01,
+		ForegroundGreen = 0x02,
+		ForegroundRed = 0x04,
+		ForegroundIntensity = 0x08,
+		BackgroundBlue = 0x10,
+		BackgroundGreen = 0x20,
+		BackgroundRed = 0x40,
+		BackgroundIntensity = 0x80,
 
 		/// <summary>
 		/// Shortcut for white output
 		/// </summary>
 		ForegroundWhite = 0x0F
 	}
+	#endregion Public
 
+	#region Internal
 	[StructLayout(LayoutKind.Sequential)]
 	internal struct SmallRect
 	{
@@ -129,9 +141,7 @@ namespace MechMK1.ConsoleScreenbuffers
 		public short Right;
 		public short Bottom;
 	}
-	
 
-	
 	[StructLayout(LayoutKind.Sequential)]
 	internal struct Coord
 	{
@@ -139,25 +149,37 @@ namespace MechMK1.ConsoleScreenbuffers
 		public short Y;
 	};
 
+	/// <summary>
+	/// Represents the internal identifier for all standard devices
+	/// </summary>
 	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1008:EnumsShouldHaveZeroValue")] //Zero value doesn't make sense here
-	public enum StandardDevice
+	internal enum StandardDevice
 	{
 		StandardInput = -10,
 		StandardOutput = -11,
 		StandardError = -12
 	}
 
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1028:EnumStorageShouldBeInt32"), Flags] //Must be uint for native method
-	public enum AccessRights : uint
+	/// <summary>
+	/// Represents the possible access rights for newly created buffers.
+	/// </summary>
+	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1028:EnumStorageShouldBeInt32")] //Must be uint for native method
+	[Flags] 
+	internal enum AccessRights : uint
 	{
 		Read = 0x80000000,
 		Write = 0x40000000
 	}
+
+	/// <summary>
+	/// Represents the possible access rights for newly created buffers.
+	/// </summary>
 	[Flags]
-	public enum ShareModes
+	internal enum ShareModes
 	{
 		None = 0,
 		Read = 1,
 		Write = 2
 	}
+	#endregion Internal
 }
