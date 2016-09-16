@@ -4,10 +4,10 @@ using System.Runtime.InteropServices;
 
 namespace MechMK1.ConsoleScreenbuffers
 {
-    public static class NativeMethods
+    internal static class NativeMethods
     {
-		public const int InvalidHanldeValue = -1;
-		public const int NullHandleValue = 0;
+		internal const int InvalidHanldeValue = -1;
+		internal const int NullHandleValue = 0;
 
 		#region extern
 		/// <summary>
