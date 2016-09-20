@@ -89,5 +89,59 @@ namespace MechMK1.ConsoleScreenbuffers
 			SmallRect rect = new SmallRect() { Left = x, Top = y, Right = (short)(x+width), Bottom = (short)(y+height) };
 			return NativeMethods.WriteConsoleOutput(this.BufferHandle, data, new Coord() { X = width, Y = height }, new Coord() { X = 0, Y = 0 }, ref rect);
 		}
+
+		/// <summary>
+		/// Draws text to the console buffer.
+		/// </summary>
+		/// <param name="text">The text to be drawn</param>
+		/// <param name="x">X coordinate on the output buffer</param>
+		/// <param name="y">Y coordinate on the output buffer</param>
+		/// <param name="isAscii">Whether or not the output should be treaten as ASCII</param>
+		/// <param name="attributes">Attributes of the text</param>
+		/// <returns>Returns true on success, false on error.</returns>
+		public bool DrawString(
+			string text,
+			short x,
+			short y,
+			bool isAscii = false,
+			CharacterAttributes attributes = CharacterAttributes.ForegroundWhite)
+		{
+			if (text == null) return false;
+			if (text.Length > short.MaxValue) throw new ArgumentOutOfRangeException("text", "Text must not be longer than short.MaxValue");
+			return DrawString(text, x, y, (short)text.Length, 1, isAscii, attributes);
+		}
+
+		/// <summary>
+		/// Draws text to the console buffer.
+		/// </summary>
+		/// <param name="text">The text to be drawn</param>
+		/// <param name="x">X coordinate on the output buffer</param>
+		/// <param name="y">Y coordinate on the output buffer</param>
+		/// <param name="width">Width of the text</param>
+		/// <param name="height">Height of the text</param>
+		/// <param name="isAscii">Whether or not the output should be treaten as ASCII</param>
+		/// <param name="attributes">Attributes of the text</param>
+		/// <returns>Returns true on success, false on error.</returns>
+		public bool DrawString(
+			string text,
+			short x,
+			short y,
+			short width,
+			short height,
+			bool isAscii = false,
+			CharacterAttributes attributes = CharacterAttributes.ForegroundWhite)
+		{
+			if (text == null) return false;
+			if (text.Length > short.MaxValue) throw new ArgumentOutOfRangeException("text", "Text must not be longer than short.MaxValue");
+
+			ConsoleCharacter[] data = new ConsoleCharacter[text.Length];
+			for (int i = 0; i < data.Length; i++)
+			{
+				if (isAscii) data[i].Char.AsciiChar = (byte)text[i];
+				else data[i].Char.UnicodeChar = text[i];
+				data[i].Attributes = attributes;
+			}
+			return Draw(data, x, y, width, height);
+		}
 	}
 }
