@@ -64,6 +64,13 @@ namespace MechMK1.ConsoleScreenbuffers
 		  Coord dataStart,
 		  ref SmallRect writeRegion
 		);
+
+
+		[DllImport("kernel32.dll", SetLastError= true)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		internal static extern bool CloseHandle(
+			IntPtr hObject	
+		);
 		#endregion extern
     }
 }

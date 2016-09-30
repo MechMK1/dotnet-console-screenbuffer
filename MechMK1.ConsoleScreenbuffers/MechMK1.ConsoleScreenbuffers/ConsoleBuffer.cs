@@ -5,7 +5,7 @@ namespace MechMK1.ConsoleScreenbuffers
 	/// <summary>
 	/// Represents a single console buffer
 	/// </summary>
-	public class ConsoleBuffer
+	public class ConsoleBuffer : IDisposable
 	{
 		/// <summary>
 		/// Internal handle for the created buffer
@@ -142,6 +142,11 @@ namespace MechMK1.ConsoleScreenbuffers
 				data[i].Attributes = attributes;
 			}
 			return Draw(data, x, y, width, height);
+		}
+
+		public void Dispose()
+		{
+			NativeMethods.CloseHandle(this.BufferHandle);
 		}
 	}
 }
